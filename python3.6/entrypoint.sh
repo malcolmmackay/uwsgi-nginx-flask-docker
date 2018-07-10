@@ -15,6 +15,7 @@ USE_LISTEN_PORT=${LISTEN_PORT:-80}
 # Generate Nginx config first part using the environment variables
 echo "server {
     listen ${USE_LISTEN_PORT};
+    server_name ${SERVER_NAME};
     location / {
         try_files \$uri @app;
     }
@@ -27,7 +28,7 @@ echo "server {
     }" > /etc/nginx/conf.d/nginx.conf
 
 # If STATIC_INDEX is 1, serve / with /static/index.html directly (or the static URL configured)
-if [[ $STATIC_INDEX == 1 ]] ; then 
+if [[ $STATIC_INDEX == 1 ]] ; then
 echo "    location = / {
         index $USE_STATIC_URL/index.html;
     }" >> /etc/nginx/conf.d/nginx.conf
